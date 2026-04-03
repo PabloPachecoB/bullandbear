@@ -1,0 +1,144 @@
+/* ═══════════════════════════════════════════
+   LOGO — Round with rotating glow + particles
+   ═══════════════════════════════════════════ */
+
+.bb-logo-wrap {
+  position: relative;
+  width: var(--logo-size);
+  height: var(--logo-size);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Logo image (circular) ────────────── */
+
+.bb-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.bb-logo-wrap:hover .bb-logo-img {
+  transform: scale(1.08);
+}
+
+/* ─── Rotating glow ring ───────────────── */
+
+.logo-glow-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  z-index: 1;
+  animation: logoRingSpin 3s linear infinite;
+  background: conic-gradient(
+    from 0deg,
+    #d4a843,
+    #e8c56d,
+    #f5d98a,
+    transparent 40%,
+    transparent 60%,
+    #b8922e,
+    #d4a843
+  );
+}
+
+/* Inner mask to make it a ring, not a filled circle */
+.logo-glow-ring::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: #0a0a0a;
+}
+
+@keyframes logoRingSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Outer soft glow */
+.logo-glow-ring::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(212, 168, 67, 0.3),
+    rgba(232, 197, 109, 0.15),
+    transparent 35%,
+    transparent 65%,
+    rgba(184, 146, 46, 0.15),
+    rgba(212, 168, 67, 0.3)
+  );
+  filter: blur(6px);
+  animation: logoRingSpin 3s linear infinite;
+  z-index: -1;
+}
+
+/* ─── Particles ────────────────────────── */
+
+.logo-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #d4a843;
+  border-radius: 50%;
+  z-index: 3;
+  pointer-events: none;
+  box-shadow: 0 0 4px rgba(212, 168, 67, 0.6);
+  animation: particleOrbit var(--duration) ease-in-out infinite var(--delay);
+  /* Place on the orbit */
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+}
+
+@keyframes particleOrbit {
+  0% {
+    transform:
+      rotate(var(--angle))
+      translateX(calc(var(--logo-size) * 0.55))
+      translateY(0)
+      scale(0.5);
+    opacity: 0.3;
+  }
+  25% {
+    transform:
+      rotate(calc(var(--angle) + 40deg))
+      translateX(calc(var(--logo-size) * 0.55 + var(--distance)))
+      translateY(calc(var(--distance) * -1))
+      scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform:
+      rotate(calc(var(--angle) + 90deg))
+      translateX(calc(var(--logo-size) * 0.55))
+      translateY(0)
+      scale(0.7);
+    opacity: 0.6;
+  }
+  75% {
+    transform:
+      rotate(calc(var(--angle) + 140deg))
+      translateX(calc(var(--logo-size) * 0.55 + var(--distance) * 0.5))
+      translateY(var(--distance))
+      scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform:
+      rotate(calc(var(--angle) + 180deg))
+      translateX(calc(var(--logo-size) * 0.55))
+      translateY(0)
+      scale(0.5);
+    opacity: 0.3;
+  }
+}

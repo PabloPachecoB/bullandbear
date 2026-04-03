@@ -1,0 +1,221 @@
+/* ═══════════════════════════════════════════
+   CONTENT SECTION — Split Layout with reveals
+   ═══════════════════════════════════════════ */
+
+.content-section {
+  display: flex;
+  align-items: stretch;
+  min-height: 80vh;
+  color: white;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* ─── Image side ───────────────────────── */
+
+.content-image-wrap {
+  flex: 1;
+  min-height: 500px;
+  overflow: hidden;
+  position: relative;
+}
+
+.content-image {
+  position: absolute;
+  inset: -40px;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+  transition: none;
+}
+
+/* Image reveal overlay — slides away on visible */
+.image-reveal-overlay {
+  position: absolute;
+  inset: 0;
+  background: #0a0a0a;
+  z-index: 2;
+  transform-origin: left;
+  transform: scaleX(1);
+  transition: transform 1.2s cubic-bezier(0.65, 0.05, 0, 1) 0.2s;
+}
+
+.content-section.reverse .image-reveal-overlay {
+  transform-origin: right;
+}
+
+.content-section.visible .image-reveal-overlay {
+  transform: scaleX(0);
+}
+
+/* Hover zoom */
+.content-section:hover .content-image {
+  filter: brightness(1.05);
+  transition: filter 2s ease;
+}
+
+/* ─── Text side ────────────────────────── */
+
+.content-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5rem 4rem;
+  background: #0a0a0a;
+}
+
+.content-text-inner {
+  max-width: 500px;
+}
+
+/* Section index number */
+.content-index {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: #d4a843;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+}
+
+.content-section.visible .content-index {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Text reveal wrapper — clip from below */
+.text-reveal-wrap {
+  overflow: hidden;
+}
+
+/* Word-by-word reveal */
+.word-reveal-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.word-reveal {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.content-section.visible .word-reveal {
+  transform: translateY(0);
+}
+
+.text-reveal-wrap h2,
+.text-reveal-wrap p {
+  transform: translateY(100%);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.content-section.visible .text-reveal-wrap h2 {
+  transform: translateY(0);
+  transition-delay: 0.5s;
+}
+
+.content-section.visible .text-reveal-wrap p {
+  transform: translateY(0);
+  transition-delay: 0.7s;
+}
+
+.content-text h2 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.content-text p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.45);
+  max-width: 440px;
+}
+
+/* Animated line under text */
+.content-line {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(to right, #d4a843, transparent);
+  margin-top: 2rem;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1) 0.9s;
+}
+
+.content-section.visible .content-line {
+  width: 80px;
+}
+
+/* ─── Reverse layout ───────────────────── */
+
+.content-section.reverse {
+  flex-direction: row-reverse;
+}
+
+.content-section.reverse .content-text {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.content-section.reverse .content-text-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.content-section.reverse .content-line {
+  background: linear-gradient(to left, #d4a843, transparent);
+}
+
+/* ─── Responsive ───────────────────────── */
+
+@media (max-width: 900px) {
+  .content-section {
+    flex-direction: column !important;
+    min-height: auto;
+  }
+
+  .content-image-wrap {
+    min-height: 300px;
+  }
+
+  .content-text {
+    padding: 3rem 2rem;
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .content-section.reverse .content-text-inner {
+    align-items: flex-start;
+  }
+
+  .content-section.reverse .content-line {
+    background: linear-gradient(to right, #d4a843, transparent);
+  }
+}
+
+@media (max-width: 480px) {
+  .content-image-wrap {
+    min-height: 220px;
+  }
+
+  .content-text {
+    padding: 2rem 1.2rem;
+  }
+
+  .content-text h2 {
+    font-size: 1.6rem;
+  }
+
+  .content-text p {
+    font-size: 0.92rem;
+  }
+}

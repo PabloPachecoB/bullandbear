@@ -1,0 +1,50 @@
+.typewriter-container {
+  display: inline-block;
+  min-height: 2.6em; /* Altura para exactamente 2 líneas */
+  position: relative;
+  text-align: center;
+  max-width: 1000px; /* Ancho aumentado para mantener texto en 2 líneas */
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.3;
+}
+
+.typewriter-text {
+  /* Fuente estilo máquina de escribir */
+  font-family: 'Courier New', Courier, monospace; 
+  /* O puedes usar una fuente web si la tienes, como 'Special Elite' o 'Courier Prime' */
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  white-space: pre-line; /* Respeta saltos de línea pero colapsa espacios múltiples */
+  display: inline;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  width: 10px;
+  background-color: transparent; /* El cursor es el '|' character */
+  color: #fff;
+  animation: blink 1s step-end infinite;
+  font-weight: 100;
+  margin-left: 2px;
+}
+
+.typewriter-cursor.typing {
+  animation: none; /* Dejar de parpadear mientras escribe si prefieres */
+  /* O simplemente mantener blink siempre */
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Ajustes para responsividad */
+@media (max-width: 768px) {
+  .typewriter-container {
+    font-size: 1.5rem; /* Ajustar tamaño para móviles */
+  }
+}

@@ -1,0 +1,448 @@
+.app {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #0a0a0a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Scroll reveal animation ──────────── */
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Stagger children — enhanced timing ── */
+
+.stagger-child {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stagger-child.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Split Text Animation ────────────── */
+
+.split-text {
+  display: inline;
+  line-height: 1.3;
+}
+
+.split-word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1.3;
+  padding-bottom: 0.05em;
+}
+
+.split-word {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  line-height: inherit;
+}
+
+.split-text.visible .split-word {
+  transform: translateY(0);
+}
+
+/* ─── Scale Reveal ────────────────────── */
+
+.scale-reveal {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scale-reveal.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ─── Section Dividers ────────────────── */
+
+.section-divider {
+  position: relative;
+  height: 1px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  overflow: visible;
+}
+
+.divider-line {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212, 168, 67, 0.2), transparent);
+  animation: dividerExpand 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.section-divider.glow .divider-line {
+  box-shadow: 0 0 20px rgba(212, 168, 67, 0.08);
+}
+
+@keyframes dividerExpand {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ─── Section eyebrow ──────────────────── */
+
+.section-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #d4a843;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+}
+
+/* ─── Text Section ─────────────────────── */
+
+.text-section {
+  padding: 7rem 2rem 4rem;
+  text-align: center;
+  background: #0a0a0a;
+  color: white;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.text-section h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: white;
+}
+
+.text-section p {
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.8;
+  max-width: 700px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ─── Features Grid ────────────────────── */
+
+.features-section-wrap {
+  background: #0a0a0a;
+}
+
+.features-section {
+  padding: 2rem 2rem 6rem;
+  background: #0a0a0a;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.feature-card {
+  background: #0a0a0a;
+  padding: 2.5rem 2rem;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle top border that animates in on hover */
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #d4a843, transparent);
+  transform: scaleX(0);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature-card:hover::before {
+  transform: scaleX(1);
+}
+
+.feature-card:hover {
+  background: rgba(212, 168, 67, 0.04);
+  transform: translateY(-4px);
+}
+
+.feature-number {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #d4a843;
+  margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 0.8rem;
+  letter-spacing: -0.01em;
+}
+
+.feature-card p {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.feature-line {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(to right, #d4a843, transparent);
+  margin-top: 1.5rem;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+
+.feature-card:hover .feature-line {
+  width: 60px;
+}
+
+/* ─── Stats Band ───────────────────────── */
+
+.stats-band {
+  background: #0a0a0a;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle glow behind stats */
+.stats-band::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(212, 168, 67, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.stats-band-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  position: relative;
+}
+
+.band-stat {
+  text-align: center;
+  flex: 1;
+}
+
+.band-stat-number {
+  display: block;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  color: #d4a843;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.band-stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+}
+
+.band-divider {
+  width: 1px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+/* ─── CTA Section ──────────────────────── */
+
+.cta-section {
+  background: #0a0a0a;
+  padding: 8rem 2rem;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(212, 168, 67, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-content h2 {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+}
+
+.cta-content p {
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  margin-bottom: 3rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+}
+
+.cta-button {
+  display: inline-block;
+  background: #d4a843;
+  color: #0a0a0a;
+  padding: 1.1rem 3rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-decoration: none;
+  transition: all 0.35s cubic-bezier(0.65, 0.05, 0, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(212, 168, 67, 0.3);
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+/* ─── Responsive ───────────────────────── */
+
+@media (max-width: 900px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-band-inner {
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .band-divider {
+    display: none;
+  }
+
+  .band-stat {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .text-section {
+    padding: 4rem 1.5rem 2rem;
+  }
+
+  .features-section {
+    padding: 1rem 1rem 4rem;
+  }
+
+  .stats-band {
+    padding: 3rem 1.5rem;
+  }
+
+  .cta-section {
+    padding: 5rem 1.5rem;
+  }
+
+  .section-divider {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .text-section {
+    padding: 3rem 1rem 1.5rem;
+  }
+
+  .text-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+
+  .cta-button {
+    padding: 1rem 2rem;
+    font-size: 0.78rem;
+  }
+
+  .stats-band-inner {
+    gap: 1.5rem;
+  }
+
+  .band-stat-number {
+    font-size: 2.2rem;
+  }
+}
