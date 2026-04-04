@@ -219,7 +219,7 @@ function HomePage() {
       <ContentSection
         title="Mentores con Resultados"
         description="Nuestro equipo opera activamente en los mercados. No solo teoria: estrategias, errores y aprendizajes reales compartidos contigo."
-        imageUrl="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80&auto=format&fit=crop"
+        imageUrl="/images/IMAGENCELULAR.jpeg"
         reverse={false}
         sectionId="beneficios"
         index={3}
