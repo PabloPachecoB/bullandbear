@@ -78,7 +78,7 @@ function AdminPanel() {
   const loadRegistros = async () => {
     setLoading(true);
     try {
-      const data = await api.listarRegistros(token);
+      const data = await api.listarRegistros();
       setRegistros(data.registros || []);
     } catch (error) {
       console.error('Error cargando registros:', error);
@@ -89,7 +89,7 @@ function AdminPanel() {
 
   const loadStats = async () => {
     try {
-      const data = await api.estadisticas(token);
+      const data = await api.estadisticas();
       setStats(data);
     } catch (error) {
       console.error('Error cargando stats:', error);
@@ -109,7 +109,8 @@ function AdminPanel() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await api.logout();
     setIsAuthenticated(false);
     setToken(null);
     setUsername('');
@@ -119,7 +120,7 @@ function AdminPanel() {
   const handleDelete = async (id) => {
     if (!window.confirm('Eliminar este registro?')) return;
     try {
-      await api.eliminarRegistro(token, id);
+      await api.eliminarRegistro(null, id);
       setRegistros(prev => prev.filter(r => r.id !== id));
       loadStats();
     } catch (error) {
@@ -146,7 +147,7 @@ function AdminPanel() {
     if (!tipoPago) { alert('Selecciona el tipo de pago'); return; }
     setInscribiendoId(inscribirModal.id);
     try {
-      const result = await api.cambiarEstado(token, inscribirModal.id, {
+      const result = await api.cambiarEstado(null, inscribirModal.id, {
         estado: 'inscrito', tipo_pago: tipoPago, comprobante_pago: comprobanteBase64 || null,
       });
       setRegistros(prev => prev.map(r => r.id === inscribirModal.id ? result.registro : r));
@@ -159,7 +160,7 @@ function AdminPanel() {
   const revertirAInteresado = async (id) => {
     if (!window.confirm('Revertir a interesado? Se eliminaran los comprobantes.')) return;
     try {
-      const result = await api.cambiarEstado(token, id, { estado: 'interesado' });
+      const result = await api.cambiarEstado(null, id, { estado: 'interesado' });
       setRegistros(prev => prev.map(r => r.id === id ? result.registro : r));
       loadStats();
     } catch (error) { alert('Error: ' + error.message); }
@@ -197,7 +198,7 @@ function AdminPanel() {
       const payload = {};
       if (nuevoTipoPago) payload.tipo_pago = nuevoTipoPago;
       if (gestionComp2Base64) payload.comprobante_pago_2 = gestionComp2Base64;
-      const result = await api.gestionarPago(token, gestionModal.id, payload);
+      const result = await api.gestionarPago(null, gestionModal.id, payload);
       setRegistros(prev => prev.map(r => r.id === gestionModal.id ? result.registro : r));
       setGestionModal(result.registro);
       setGestionComp2Base64(null);
@@ -209,7 +210,7 @@ function AdminPanel() {
   const guardarGestionInfo = async () => {
     setGestionSaving(true);
     try {
-      const result = await api.gestionarPago(token, gestionModal.id, gestionEdit);
+      const result = await api.gestionarPago(null, gestionModal.id, gestionEdit);
       setRegistros(prev => prev.map(r => r.id === gestionModal.id ? result.registro : r));
       setGestionModal(result.registro);
       setGestionEdit({
@@ -306,7 +307,7 @@ function AdminPanel() {
           <h1>Panel de Administracion</h1>
           <p>Ingresa tus credenciales para acceder</p>
           <form onSubmit={handleLogin} className="login-form">
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuario" autoFocus aria-label="Usuario" required />
+            <input type="email" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Email" autoFocus aria-label="Email" required />
             <input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Contrasena" aria-label="Contrasena" required />
             <label className="show-pass">
               <input type="checkbox" checked={showPassword} onChange={(e) => setShowPassword(e.target.checked)} />

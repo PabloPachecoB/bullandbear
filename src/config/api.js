@@ -1,91 +1,120 @@
-const API_URL = 'http://localhost:8000/api';
+import { supabase } from './supabase';
 
 export const api = {
-  // ─── PUBLICO ──────────────────────────────
+  // ─── PUBLICO: Crear registro ─────────────
   async crearRegistro(data) {
-    const res = await fetch(`${API_URL}/registro/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.message || 'Error al registrar');
-    return json;
+    const { data: registro, error } = await supabase
+      .from('registros')
+      .insert([{ ...data, estado: 'interesado', fecha: new Date().toISOString() }])
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message || 'Error al registrar');
+    return registro;
   },
 
   // ─── ADMIN AUTH ───────────────────────────
-  async login(username, password) {
-    const res = await fetch(`${API_URL}/admin/login/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+  async login(email, password) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
     });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.message || 'Credenciales incorrectas');
-    return json;
+
+    if (error) throw new Error(error.message || 'Credenciales incorrectas');
+    return { token: data.session.access_token, user: data.user };
   },
 
-  // ─── ADMIN: Listar ────────────────────────
-  async listarRegistros(token, params = {}) {
-    const query = new URLSearchParams(params).toString();
-    const res = await fetch(`${API_URL}/admin/registros/?${query}`, {
-      headers: { 'Authorization': `Token ${token}` },
-    });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.message || 'Error al cargar');
-    return json;
+  async logout() {
+    await supabase.auth.signOut();
   },
 
-  // ─── ADMIN: Eliminar ─────────────────────
-  async eliminarRegistro(token, id) {
-    const res = await fetch(`${API_URL}/admin/registros/${id}/`, {
-      method: 'DELETE',
-      headers: { 'Authorization': `Token ${token}` },
-    });
-    if (!res.ok) {
-      const json = await res.json();
-      throw new Error(json.message || 'Error al eliminar');
-    }
+  // ─── ADMIN: Listar registros ─────────────
+  async listarRegistros() {
+    const { data, error } = await supabase
+      .from('registros')
+      .select('*')
+      .order('fecha', { ascending: false });
+
+    if (error) throw new Error(error.message || 'Error al cargar');
+    return { registros: data || [] };
+  },
+
+  // ─── ADMIN: Eliminar registro ────────────
+  async eliminarRegistro(_token, id) {
+    const { error } = await supabase
+      .from('registros')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw new Error(error.message || 'Error al eliminar');
     return true;
   },
 
-  // ─── ADMIN: Cambiar estado ────────────────
-  async cambiarEstado(token, id, data) {
-    const res = await fetch(`${API_URL}/admin/registros/${id}/estado/`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.message || 'Error al cambiar estado');
-    return json;
+  // ─── ADMIN: Cambiar estado ───────────────
+  async cambiarEstado(_token, id, data) {
+    const updateData = { ...data };
+
+    // Si revertimos a interesado, limpiar datos de pago
+    if (data.estado === 'interesado') {
+      updateData.tipo_pago = null;
+      updateData.comprobante_pago = null;
+      updateData.comprobante_pago_2 = null;
+    }
+
+    const { data: registro, error } = await supabase
+      .from('registros')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message || 'Error al cambiar estado');
+    return { registro };
   },
 
-  // ─── ADMIN: Gestionar pago ────────────────
-  async gestionarPago(token, id, data) {
-    const res = await fetch(`${API_URL}/admin/registros/${id}/pago/`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.message || 'Error al actualizar pago');
-    return json;
+  // ─── ADMIN: Gestionar pago / editar info ──
+  async gestionarPago(_token, id, data) {
+    const { data: registro, error } = await supabase
+      .from('registros')
+      .update(data)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message || 'Error al actualizar');
+    return { registro };
   },
 
-  // ─── ADMIN: Stats ────────────────────────
-  async estadisticas(token) {
-    const res = await fetch(`${API_URL}/admin/stats/`, {
-      headers: { 'Authorization': `Token ${token}` },
+  // ─── ADMIN: Estadisticas ─────────────────
+  async estadisticas() {
+    const { data, error } = await supabase
+      .from('registros')
+      .select('*');
+
+    if (error) throw new Error(error.message || 'Error al cargar stats');
+
+    const registros = data || [];
+    const total = registros.length;
+    const interesados = registros.filter(r => r.estado === 'interesado').length;
+    const inscritos = registros.filter(r => r.estado === 'inscrito').length;
+
+    // Registros de los ultimos 7 dias
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    const recientes = registros.filter(r => new Date(r.fecha) > weekAgo).length;
+
+    // Ciudades mas frecuentes
+    const ciudades = {};
+    registros.forEach(r => {
+      if (r.ciudad) ciudades[r.ciudad] = (ciudades[r.ciudad] || 0) + 1;
     });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.message || 'Error al cargar stats');
-    return json;
+
+    return {
+      total,
+      interesados,
+      inscritos,
+      recientes,
+      ciudades,
+    };
   },
 };
