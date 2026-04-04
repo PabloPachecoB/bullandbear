@@ -34,7 +34,7 @@ function Hero() {
           poster="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=2000&q=80"
           style={{ transform: `scale(${1 + scrollY * 0.0003}) translateY(${parallaxOffset}px)` }}
         >
-          <source src="https://cdn.pixabay.com/video/2020/08/09/46476-449702644_large.mp4" type="video/mp4" />
+          <source src="https://assets.mixkit.co/videos/47006/47006-720.mp4" type="video/mp4" />
         </video>
         <div className="hero-overlay"></div>
       </div>
