@@ -45,9 +45,10 @@ function Hero() {
       >
         <div className="hero-eyebrow">BULL & BEAR TRADING ACADEMY</div>
         <h1 className="hero-title">
-          <span className="title-line" style={{ transform: `translateY(${-spreadAmount}px)` }}>DOMINA LOS</span>
-          <span className="title-line title-accent">MERCADOS</span>
-          <span className="title-line" style={{ transform: `translateY(${spreadAmount}px)` }}>FINANCIEROS</span>
+          <div className="title-line" style={{ transform: `translateY(${-spreadAmount}px)` }}>DOMINA</div>
+          <div className="title-line" style={{ transform: `translateY(${-spreadAmount}px)` }}>LOS</div>
+          <div className="title-line title-accent">MERCADOS</div>
+          <div className="title-line" style={{ transform: `translateY(${spreadAmount}px)` }}>FINANCIEROS</div>
         </h1>
         <p className="hero-subtitle">
           Formacion presencial en La Paz, Bolivia.

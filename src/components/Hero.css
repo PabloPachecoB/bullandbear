@@ -141,6 +141,9 @@
 .title-line:nth-child(3) {
   transform: translateY(60px);
 }
+.title-line:nth-child(4) {
+  transform: translateY(60px);
+}
 
 .hero.hero-loaded .title-line {
   opacity: 1;
@@ -149,9 +152,12 @@
   transition-delay: 1s;
 }
 .hero.hero-loaded .title-line:nth-child(2) {
-  transition-delay: 1.15s;
+  transition-delay: 1.07s;
 }
 .hero.hero-loaded .title-line:nth-child(3) {
+  transition-delay: 1.15s;
+}
+.hero.hero-loaded .title-line:nth-child(4) {
   transition-delay: 1.3s;
 }
 
@@ -160,7 +166,6 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-size: 0.9em;
 }
 
 /* ─── Subtitle ─────────────────────────── */
@@ -348,8 +353,8 @@
 
 @media (max-width: 768px) {
   .title-line {
-    font-size: clamp(2.2rem, 9vw, 3.5rem);
-    line-height: 1.1;
+    font-size: clamp(2.5rem, 12vw, 4.5rem);
+    line-height: 1.05;
   }
 
   .hero-content {
@@ -377,16 +382,9 @@
 }
 
 @media (max-width: 480px) {
-  .hero-title {
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
-
   .title-line {
-    font-size: clamp(1.35rem, 6.5vw, 2.1rem);
-    line-height: 1.1;
-    display: block;
-    width: 100%;
+    font-size: clamp(2rem, 11vw, 3rem);
+    line-height: 1.05;
   }
 
   .hero-buttons {
@@ -418,7 +416,6 @@
 
 @media (max-width: 360px) {
   .title-line {
-    font-size: 1.3rem;
-    line-height: 1.15;
+    font-size: clamp(1.8rem, 10vw, 2.5rem);
   }
 }
