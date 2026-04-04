@@ -39,22 +39,33 @@ function Hero() {
         <div className="hero-overlay"></div>
       </div>
 
-      <div
-        className="hero-content"
-        style={{ opacity: titleOpacity, transform: `translateY(${titleTranslate}px)` }}
-      >
-        <div className="hero-eyebrow">BULL & BEAR TRADING ACADEMY</div>
-        <h1 className="hero-title">
-          <div className="title-line" style={{ transform: `translateY(${-spreadAmount}px)` }}>DOMINA</div>
-          <div className="title-line" style={{ transform: `translateY(${-spreadAmount}px)` }}>LOS</div>
-          <div className="title-line title-accent">MERCADOS</div>
-          <div className="title-line" style={{ transform: `translateY(${spreadAmount}px)` }}>FINANCIEROS</div>
-        </h1>
-        <p className="hero-subtitle">
-          Formacion presencial en La Paz, Bolivia.
-          <br />
-          De principiante a trader consistente.
-        </p>
+      <div className="hero-content"> 
+  
+  <h1 className="hero-title"> {/* <-- ESTO ES LO QUE TE FALTA */}
+    <div 
+      className="title-line" 
+      style={{ transform: `translateY(${-spreadAmount}px)` }}
+    >
+      DOMINA LOS
+    </div>
+    
+    <div className="title-line title-accent">
+      MERCADOS
+    </div>
+    
+    <div 
+      className="title-line" 
+      style={{ transform: `translateY(${spreadAmount}px)` }}
+    >
+      FINANCIEROS
+    </div>
+  </h1> {/* <-- CIERRE DEL PADRE */}
+
+  <p className="hero-subtitle">
+    Formación presencial en La Paz, Bolivia.
+    <br />
+    De principiante a trader consistente.
+  </p>
 
         <div className="hero-buttons">
           <Link to="/registro" className="hero-cta-primary">

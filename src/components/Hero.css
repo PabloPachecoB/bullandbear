@@ -113,36 +113,21 @@
 /* ─── Title — Large Impact ─────────────── */
 
 .hero-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: block;
   text-align: center;
   margin-bottom: 2rem;
-  overflow: hidden;
 }
 
 .title-line {
   display: block;
   font-size: clamp(3rem, 10vw, 8rem);
   font-weight: 900;
-  line-height: 1.05;
+  line-height: 1.15;
   letter-spacing: -0.03em;
   color: white;
   opacity: 0;
+  transform: translateY(60px);
   transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.title-line:nth-child(1) {
-  transform: translateY(60px);
-}
-.title-line:nth-child(2) {
-  transform: translateY(60px);
-}
-.title-line:nth-child(3) {
-  transform: translateY(60px);
-}
-.title-line:nth-child(4) {
-  transform: translateY(60px);
 }
 
 .hero.hero-loaded .title-line {
@@ -152,12 +137,9 @@
   transition-delay: 1s;
 }
 .hero.hero-loaded .title-line:nth-child(2) {
-  transition-delay: 1.07s;
-}
-.hero.hero-loaded .title-line:nth-child(3) {
   transition-delay: 1.15s;
 }
-.hero.hero-loaded .title-line:nth-child(4) {
+.hero.hero-loaded .title-line:nth-child(3) {
   transition-delay: 1.3s;
 }
 
@@ -166,6 +148,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  padding: 0.05em 0;
 }
 
 /* ─── Subtitle ─────────────────────────── */
@@ -353,8 +336,7 @@
 
 @media (max-width: 768px) {
   .title-line {
-    font-size: clamp(2.5rem, 12vw, 4.5rem);
-    line-height: 1.05;
+    font-size: clamp(1.8rem, 7vw, 3.5rem);
   }
 
   .hero-content {
@@ -383,8 +365,7 @@
 
 @media (max-width: 480px) {
   .title-line {
-    font-size: clamp(2rem, 11vw, 3rem);
-    line-height: 1.05;
+    font-size: clamp(1.2rem, 5.5vw, 1.7rem);
   }
 
   .hero-buttons {
@@ -415,7 +396,11 @@
 }
 
 @media (max-width: 360px) {
+  .hero-content {
+    padding: 1rem 0.8rem;
+  }
+
   .title-line {
-    font-size: clamp(1.8rem, 10vw, 2.5rem);
+    font-size: 1.1rem;
   }
 }

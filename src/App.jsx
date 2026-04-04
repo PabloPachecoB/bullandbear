@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import BackToTop from './components/BackToTop';
+import Particles from './components/Particles';
 import './App.css';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <div className="app">
+      {!isAdmin && <Particles />}
       <ScrollToTop />
       <Header />
 
